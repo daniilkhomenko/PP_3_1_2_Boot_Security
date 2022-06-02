@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -17,7 +18,11 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String lastName;
+
+    @Column (unique = true)
     private String email;
+
+    @Column (unique = true)
     private String username;
     private String password;
     @Transient
@@ -54,6 +59,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
     public Long getId() {
         return id;
@@ -119,5 +126,18 @@ public class User implements UserDetails {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, username);
     }
 }

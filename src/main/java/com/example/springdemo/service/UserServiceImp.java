@@ -26,32 +26,40 @@ public class UserServiceImp implements UserService {
         this.roleRepository = roleRepository;
     }
 
+    @Transactional
+    @Override
     public void createUpdateUser(User user) {
         userRepository.save(user);
     }
 
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).get();
     }
 
+    @Override
     public List<Role> listRoles() {
         return roleRepository.findAll();
     }
 
+    @Transactional
+    @Override
     public void deleteById(User user) {
         userRepository.delete(user);
     }
 
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    @Override
     @Transactional
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
