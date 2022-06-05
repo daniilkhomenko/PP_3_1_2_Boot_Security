@@ -1,5 +1,7 @@
 package com.example.springdemo.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,14 +27,17 @@ public class User implements UserDetails {
     @Column (unique = true)
     private String username;
     private String password;
+
     @Transient
     private String passwordConfirm;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles", joinColumns = @JoinColumn(name = "user_id",
             referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(
             name = "role_id", referencedColumnName = "id")
     )
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles;
 
     @Override
@@ -59,8 +64,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-
 
     public Long getId() {
         return id;
