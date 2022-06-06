@@ -1,7 +1,5 @@
 package com.example.springdemo.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,7 +35,7 @@ public class User implements UserDetails {
             referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(
             name = "role_id", referencedColumnName = "id")
     )
-    @Fetch(FetchMode.JOIN)
+    //JOIN FETCH добавлен в UserRepository
     private Set<Role> roles;
 
     @Override
